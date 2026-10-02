@@ -314,8 +314,9 @@ export default defineLazyEventHandler(async () => {
       console.error('[releases] failed to fetch user repos', error)
     }
 
+    const hasRelease = new Set(infos.map(i => i.repo))
     const toBackfill = [...orgs.keys()]
-      .filter(repo => !backfilledSet.has(repo))
+      .filter(repo => !backfilledSet.has(repo) || !hasRelease.has(repo))
       .slice(0, MAX_BACKFILL_PER_RUN)
 
     for (let i = 0; i < toBackfill.length; i += BACKFILL_CONCURRENCY) {
