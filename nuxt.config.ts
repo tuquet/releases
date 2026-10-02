@@ -2,7 +2,7 @@ import process from 'node:process'
 
 const name = process.env.GITHUB_NAME || 'Nguyen Dinh Tu'
 const login = process.env.GITHUB_LOGIN || 'tuquet'
-const website = process.env.WEBSITE_DOMAIN || 'https://tuquet.github.io/releases'
+const website = process.env.WEBSITE_DOMAIN || 'https://tuquet.netlify.app'
 
 export default defineNuxtConfig({
   modules: [
