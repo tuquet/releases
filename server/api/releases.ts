@@ -21,7 +21,7 @@ const MAX_RESOLVE_PER_RUN = 40
 const RESOLVE_CONCURRENCY = 12
 
 // Backfilling walks one repo per request, drain it across runs too
-const MAX_BACKFILL_PER_RUN = 10
+const MAX_BACKFILL_PER_RUN = 25
 const BACKFILL_CONCURRENCY = 10
 const BACKFILL_PER_REPO = 30
 
@@ -61,8 +61,8 @@ interface Commit {
 // A release is identified by its repo and version, not by the event or commit
 // that produced it. The same release can be discovered from a push event and
 // from the releases API, and we only ever want to keep one of them.
-function keyOf(info: Pick<ReleaseInfo, 'repo' | 'version'>): string {
-  return `${info.repo}@${info.version}`
+function keyOf(info: Pick<ReleaseInfo, 'repo' | 'version' | 'title'>): string {
+  return `${info.repo}@${info.title || info.version}`
 }
 
 export default defineLazyEventHandler(async () => {
@@ -296,7 +296,23 @@ export default defineLazyEventHandler(async () => {
     const backfilled: string[] = await kv.getItem<string[]>(KV_KEY_BACKFILLED) || []
     const backfilledSet = new Set(backfilled)
     const orgs = new Map<string, boolean>()
+    events.forEach(event => orgs.set(event.repo, event.isOrg))
     ;[...byKey.values()].forEach(info => orgs.set(info.repo, info.isOrg))
+
+    try {
+      const { data: userRepos } = await octokit.request('GET /users/{username}/repos', {
+        username: config.public.login,
+        sort: 'pushed',
+        per_page: 30,
+      })
+      userRepos.forEach((r) => {
+        if (!r.fork && r.full_name)
+          orgs.set(r.full_name, false)
+      })
+    }
+    catch (error) {
+      console.error('[releases] failed to fetch user repos', error)
+    }
 
     const toBackfill = [...orgs.keys()]
       .filter(repo => !backfilledSet.has(repo))
