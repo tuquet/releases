@@ -1,3 +1,6 @@
+packages:
+  - '.'
+
 minimumReleaseAge: false
 shamefullyHoist: true
 strictPeerDependencies: false
