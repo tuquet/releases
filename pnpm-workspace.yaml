@@ -1,14 +1,16 @@
-minimumReleaseAge: false
-shamefullyHoist: true
-strictPeerDependencies: false
-shellEmulator: true
-packages:
-  - .
-trustPolicy: no-downgrade
+allowBuilds:
+  esbuild: true
+  unrs-resolver: true
+
+minimumReleaseAge: 0
 
 overrides:
   semver: ^7.5.4
 
-allowBuilds:
-  esbuild: true
-  unrs-resolver: true
+packages:
+  - .
+
+shamefullyHoist: true
+shellEmulator: true
+strictPeerDependencies: false
+trustPolicy: no-downgrade
