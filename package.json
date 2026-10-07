@@ -1,0 +1,44 @@
+{
+  "type": "module",
+  "private": true,
+  "packageManager": "pnpm@11.24.0",
+  "scripts": {
+    "build": "nuxi build",
+    "dev": "nuxi dev",
+    "generate": "nuxi generate",
+    "prepare": "nuxi prepare",
+    "start": "node .output/server/index.mjs",
+    "start:generate": "npx serve .output/public",
+    "lint": "eslint .",
+    "typecheck": "vue-tsc --noEmit"
+  },
+  "dependencies": {
+    "@vueuse/core": "^15.0.0",
+    "octokit": "^5.0.5",
+    "ufo": "^1.6.4"
+  },
+  "devDependencies": {
+    "@antfu/eslint-config": "^9.3.0",
+    "@iconify-json/carbon": "^1.2.25",
+    "@iconify-json/logos": "^1.2.13",
+    "@iconify-json/ph": "^1.2.2",
+    "@iconify-json/twemoji": "^1.2.5",
+    "@netlify/blobs": "^11.0.1",
+    "@nuxt/devtools": "^3.4.2",
+    "@nuxt/eslint": "^1.17.0",
+    "@nuxtjs/color-mode": "^4.0.1",
+    "@pinia/nuxt": "^1.0.2",
+    "@unocss/eslint-config": "^66.8.1",
+    "@unocss/nuxt": "^66.8.1",
+    "@unocss/reset": "^66.8.1",
+    "@vueuse/nuxt": "^14.4.0",
+    "consola": "^3.4.2",
+    "eslint": "^10.9.1",
+    "eslint-plugin-format": "^2.0.1",
+    "feed": "^6.0.0",
+    "nuxt": "^4.5.2",
+    "pinia": "^4.0.3",
+    "typescript": "~5.9.3",
+    "vue-tsc": "^3.3.11"
+  }
+}
