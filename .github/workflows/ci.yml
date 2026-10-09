@@ -50,3 +50,16 @@ jobs:
 
       - name: Typecheck
         run: pnpm run typecheck
+
+  notify:
+    name: Notify Telegram
+    needs: [lint, typecheck]
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+      - name: Send Telegram Notification
+        uses: tuquet/bot@main
+        with:
+          bot-token: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          chat-id: ${{ secrets.TELEGRAM_CHAT_ID }}
+          status: ${{ contains(needs.*.result, 'failure') && 'failure' || 'success' }}
